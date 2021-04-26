@@ -28,6 +28,9 @@ class FormGenerator extends StatefulWidget {
   /// The widget to show as child of the [ElevatedButton]
   final Widget? buttonChild;
 
+  /// Whether the field can expands on the parent
+  final bool isExpanded;
+
   /// The [ElevatedButton] style
   final ButtonStyle? buttonStyle;
   final EdgeInsetsGeometry? padding;
@@ -47,6 +50,7 @@ class FormGenerator extends StatefulWidget {
       this.decoration,
       this.padding = const EdgeInsets.all(8.0),
       this.onValidate,
+      this.isExpanded = false,
       this.buttonChild,
       this.buttonStyle,
       this.cancelText,
@@ -67,17 +71,36 @@ class _FormGeneratorState extends State<FormGenerator> {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-        key: _formKey,
-        child: ListView.separated(
-          padding: widget.padding,
-          itemCount: widget.fieldList.length + 1,
-          itemBuilder: (context, index) => (index < widget.fieldList.length
-              ? generator(widget.fieldList.elementAt(index))
-              : submitButton()),
-          separatorBuilder:
-              widget.separatorBuilder ?? (context, index) => Divider(),
-        ));
+    return Form(key: _formKey, child: _expands());
+  }
+
+  Widget _expands() {
+    if (widget.isExpanded)
+      return ListView.separated(
+        padding: widget.padding,
+        itemCount: widget.fieldList.length + 1,
+        itemBuilder: (context, index) => (index < widget.fieldList.length
+            ? generator(widget.fieldList.elementAt(index))
+            : submitButton()),
+        separatorBuilder:
+            widget.separatorBuilder ?? (context, index) => Divider(),
+      );
+
+    List<Widget> list = [];
+    for (var i = 0; i < widget.fieldList.length; i++) {
+      Widget w = widget.separatorBuilder != null
+          ? widget.separatorBuilder!(context, i)
+          : Divider();
+      list.add(generator(widget.fieldList.elementAt(i)));
+      list.add(w);
+    }
+    list.add(submitButton());
+    return Padding(
+      padding: widget.padding ?? EdgeInsets.zero,
+      child: Column(
+        children: list,
+      ),
+    );
   }
 
   Widget generator(InputField value) {

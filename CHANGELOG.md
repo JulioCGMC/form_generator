@@ -1,4 +1,15 @@
+## [0.9.2-nullsafety] - Add non expanded option.
+
+* Add non isExpanded option to choose if is using ListView or Column.
+
+## [0.9.2] - Add non expanded option.
+
+* Add non isExpanded option to choose if is using ListView or Column.
 ## [0.9.1-nullsafety.3] - Updating readme.
+
+* Add preview images.
+
+## [0.9.1] - Updating readme.
 
 * Add preview images.
 
