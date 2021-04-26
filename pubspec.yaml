@@ -1,6 +1,6 @@
 name: form_generator
 description: Flutter package to automate the creation of simple forms using a generic code with multiple ways to decorate and stylize the formfield.
-version: 0.9.1-nullsafety.2
+version: 0.9.1-nullsafety.3
 homepage: https://github.com/JulioCGMC/form_generator
 
 environment:
