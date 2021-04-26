@@ -3,13 +3,13 @@ import 'package:form_generator/models/input_field.dart';
 
 class CustomTextField extends StatefulWidget {
   final InputField value;
-  final void Function(String)? onChanged;
-  final InputDecoration? decoration;
+  final void Function(String) onChanged;
+  final InputDecoration decoration;
   final bool obscureText;
 
   const CustomTextField(
-      {Key? key,
-      required this.value,
+      {Key key,
+      @required this.value,
       this.onChanged,
       this.decoration,
       this.obscureText = false})

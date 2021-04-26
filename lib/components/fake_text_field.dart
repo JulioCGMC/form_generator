@@ -4,15 +4,15 @@ import 'package:form_generator/models/input_field.dart';
 class FakeTextField extends StatefulWidget {
   final InputField value;
   final TextEditingController controller;
-  final void Function(String)? onChanged;
-  final InputDecoration? decoration;
-  final String? cancelText;
-  final String? confirmText;
+  final void Function(String) onChanged;
+  final InputDecoration decoration;
+  final String cancelText;
+  final String confirmText;
 
   const FakeTextField({
-    Key? key,
-    required this.value,
-    required this.controller,
+    Key key,
+    @required this.value,
+    @required this.controller,
     this.onChanged,
     this.decoration,
     this.cancelText,
@@ -57,12 +57,12 @@ class _FakeTextFieldState extends State<FakeTextField> {
     }
     if (result != null) {
       if (widget.value.fieldType == FieldType.date) {
-        widget.onChanged!(result.toString().split(" ")[0]);
+        widget.onChanged(result.toString().split(" ")[0]);
         setState(() {
           widget.controller.text = result.toString().split(" ")[0];
         });
       } else {
-        widget.onChanged!(result.format(context));
+        widget.onChanged(result.format(context));
         setState(() {
           widget.controller.text = result.format(context);
         });

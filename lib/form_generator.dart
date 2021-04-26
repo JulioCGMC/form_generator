@@ -13,7 +13,7 @@ class FormGenerator extends StatefulWidget {
   final List<InputField> fieldList;
 
   /// The separator between each field generated
-  final Widget Function(BuildContext, int)? separatorBuilder;
+  final Widget Function(BuildContext, int) separatorBuilder;
 
   /// The border, labels, icons, and styles used to decorate a Material Design text field.
   /// The [TextField] and [InputDecorator] classes use [InputDecoration] objects to describe
@@ -23,26 +23,26 @@ class FormGenerator extends StatefulWidget {
   /// input area, which is surrounded by a border an all sides. It displays the hintText
   /// inside the input area to help the user understand what input is required. It displays
   /// the helperText and counterText below the input area.
-  final InputDecoration Function(InputField)? decoration;
+  final InputDecoration Function(InputField) decoration;
 
   /// The widget to show as child of the [ElevatedButton]
-  final Widget? buttonChild;
+  final Widget buttonChild;
 
   /// The [ElevatedButton] style
-  final ButtonStyle? buttonStyle;
-  final EdgeInsetsGeometry? padding;
+  final ButtonStyle buttonStyle;
+  final EdgeInsetsGeometry padding;
 
   /// The resulting value from the inputs after the validation be applied
-  final Function(Map<String, String>)? onValidate;
+  final Function(Map<String, String>) onValidate;
 
   /// `cancelText` for [showDatepicker] and [showTimePicker]
-  final String? cancelText;
+  final String cancelText;
 
   /// `confirmText` for [showDatepicker] and [showTimePicker]
-  final String? confirmText;
+  final String confirmText;
 
   FormGenerator(
-      {required this.fieldList,
+      {@required this.fieldList,
       this.separatorBuilder,
       this.decoration,
       this.padding = const EdgeInsets.all(8.0),
@@ -91,7 +91,7 @@ class _FormGeneratorState extends State<FormGenerator> {
           value: value,
           obscureText: (value.fieldType == FieldType.password),
           decoration: widget.decoration != null
-              ? widget.decoration!(value)
+              ? widget.decoration(value)
               : InputDecoration(
                   hintText: value.hintText, prefixIcon: value.prefixIcon),
           onChanged: (text) => _setValue(value.id, text),
@@ -106,7 +106,7 @@ class _FormGeneratorState extends State<FormGenerator> {
           cancelText: widget.cancelText,
           confirmText: widget.confirmText,
           decoration: widget.decoration != null
-              ? widget.decoration!(value)
+              ? widget.decoration(value)
               : InputDecoration(
                   hintText: value.hintText, prefixIcon: value.prefixIcon),
           onChanged: (text) => _setValue(value.id, text),
@@ -117,7 +117,7 @@ class _FormGeneratorState extends State<FormGenerator> {
           items: value.items,
           onChanged: (text) => _setValue(value.id, text.toString()),
           decoration: widget.decoration != null
-              ? widget.decoration!(value)
+              ? widget.decoration(value)
               : InputDecoration(
                   hintText: value.hintText, prefixIcon: value.prefixIcon),
         );
@@ -128,10 +128,9 @@ class _FormGeneratorState extends State<FormGenerator> {
 
   Widget submitButton() => ElevatedButton(
       onPressed: () {
-        if (_formKey.currentState != null &&
-            _formKey.currentState!.validate()) {
+        if (_formKey.currentState != null && _formKey.currentState.validate()) {
           if (widget.onValidate != null) {
-            widget.onValidate!(json);
+            widget.onValidate(json);
           }
         }
       },
